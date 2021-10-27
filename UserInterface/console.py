@@ -1,5 +1,5 @@
-from Domain.vanzare import creeaza_vanzare, get_str
-from Logic.crud import create,update,delete
+from Domain.vanzare2 import creeaza_vanzare, get_str
+from Logic.crud import create, read,update,delete
 
 def menu():
     print("""
@@ -9,11 +9,11 @@ def menu():
     """)
 
 def handle_create(vanzari):
-    id_vanzare = int(input('Dati id ul noii vanzari'))
-    titlu = input('Dati titlul cartii vandute')
-    gen = input('Dati genul cartii vandute')
-    pret = int(input('Dati pretul vanzarii'))
-    tip_reducere = input('Dati tipul reducerii (gold, silver sau none)')
+    id_vanzare = int(input('Dati id ul noii vanzari: '))
+    titlu = input('Dati titlul cartii vandute: ')
+    gen = input('Dati genul cartii vandute: ')
+    pret = int(input('Dati pretul vanzarii: '))
+    tip_reducere = input('Dati tipul reducerii (gold, silver sau none): ')
     return create(vanzari,id_vanzare,titlu,gen,pret,tip_reducere)
 
 def handle_show_all(vanzari):
@@ -21,15 +21,15 @@ def handle_show_all(vanzari):
         print(get_str(vanzare))
 
 def handle_update(vanzari):
-    id_vanzare = int(input('Dati id ul vanzarii'))
-    titlu = input('Dati noul titlu al cartii vandute')
-    gen = input('Dati noul gen al cartii vandute')
-    pret = int(input('Dati noul pret al vanzarii'))
-    tip_reducere = input('Dati noul tip de reducere (gold, silver sau none)')
+    id_vanzare = int(input('Dati id ul vanzarii: '))
+    titlu = input('Dati noul titlu al cartii vandute: ')
+    gen = input('Dati noul gen al cartii vandute: ')
+    pret = int(input('Dati noul pret al vanzarii: '))
+    tip_reducere = input('Dati noul tip de reducere (gold, silver sau none): ')
     return update(vanzari,creeaza_vanzare(id_vanzare,titlu,gen,pret,tip_reducere))
 
 def handle_delete(vanzari):
-    id_vanzare = int(input('Dati id-ul vanzarii care se va sterge:'))
+    id_vanzare = int(input('Dati id-ul vanzarii care se va sterge: '))
     return delete(vanzari,id_vanzare)
 
 
@@ -44,15 +44,15 @@ def handle_crud(vanzari):
 
         optiune = input('Optiune aleasa: ')
         if optiune == 'a':
-            obiecte = handle_create(vanzari)
+            vanzari = handle_create(vanzari)
         elif optiune == 'b':
-            obiecte = handle_update(vanzari)
+            vanzari = handle_update(vanzari)
         elif optiune == 'c':
-            obiecte =handle_delete(vanzari)
+            vanzari =handle_delete(vanzari)
         elif optiune == 'd':
             handle_show_all(vanzari)
         elif optiune == 'x':
-            return True
+            return vanzari
         else:
             print('Optiune invalida.')
 
