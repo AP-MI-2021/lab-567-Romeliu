@@ -63,7 +63,7 @@ def run_ui(vanzari):
         if optiune == '1':
             vanzari = handle_crud(vanzari)
         elif optiune == '2':
-            handle_show_all()
+            handle_show_all(vanzari)
         elif optiune == 'x':
             break
         else:
