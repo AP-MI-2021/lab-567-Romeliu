@@ -3,8 +3,12 @@ from Domain.vanzare2 import creeaza_vanzare, get_id
 
 def create(lst_obj,id_vanzare,titlu,gen,pret,tip_reducere):
     #creeaza o vanzare noua pe care o adauga in lista de vanzari
-    obiect = creeaza_vanzare(id_vanzare,titlu,gen,pret,tip_reducere)
-    return lst_obj + [obiect]
+    try:
+        obiect = creeaza_vanzare(id_vanzare,titlu,gen,pret,tip_reducere)
+        return lst_obj + [obiect]
+    except ValueError as err:
+        print(err.args)
+        return lst_obj
 
 def read(lst_obj,id_vanzare:int = None):
     #daca primeste un parametru id_vanzare, citeste vanzarea cu acel id

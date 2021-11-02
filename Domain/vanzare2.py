@@ -7,6 +7,11 @@ def creeaza_vanzare(id_vanzare,titlu,gen,pret,tip_reducere):
     :param pret: pretul vanzarii
     :param tip_reducere: tipul reducerii: gold, silver sau none
     '''
+    if type(id_vanzare) is not int:
+        raise ValueError('Id ul vanzarii trebuie sa fie un intreg!')
+    if type(pret) is not int:
+        raise ValueError('Pretul vanzarii trebuie sa fie un intreg!')
+
     return(id_vanzare,titlu,gen,pret,tip_reducere)
 
 def get_id(obiect):
@@ -31,3 +36,4 @@ def get_tip_reducere(obiect):
 
 def get_str(obiect):
     return f'Vanzarea cu id-ul; {get_id(obiect)}, cartea vanduta: {get_titlu(obiect)}, din genul {get_gen(obiect)}, pret vanzare: {get_pret(obiect)}, cu reducere aplicata: {get_tip_reducere(obiect)}'
+
