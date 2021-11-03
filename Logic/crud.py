@@ -7,7 +7,7 @@ def create(lst_obj,id_vanzare,titlu,gen,pret,tip_reducere):
         obiect = creeaza_vanzare(id_vanzare,titlu,gen,pret,tip_reducere)
         return lst_obj + [obiect]
     except ValueError as err:
-        print(err.args)
+        print(err.args[0])
         return lst_obj
 
 def read(lst_obj,id_vanzare:int = None):

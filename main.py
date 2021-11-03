@@ -1,5 +1,5 @@
 from Tests.test_crud import test_crud
-from UserInterface.console import run_ui
+from UserInterface.console2 import run_ui
 
 
 def main():
