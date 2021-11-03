@@ -2,6 +2,7 @@ from Domain.vanzare2 import get_gen, get_id, get_pret, get_tip_reducere, get_tit
 from Domain.vanzare2 import creeaza_vanzare, get_str
 from Logic.comparisons import get_lowest_price
 from Logic.crud import create, read,update,delete
+from UserInterface.console2 import run_ui2
 
 def menu():
     print("""
@@ -9,6 +10,7 @@ def menu():
     2. Afisare
     3. Schimba genul unei carti
     4. Determina pretul minim pentru fiecare gen
+    alt. Instructiuni pe o singura linie
     x. Iesire
     """)
 
@@ -106,6 +108,8 @@ def run_ui(vanzari):
             vanzari = handle_change_genre(vanzari)
         elif optiune == '4':
             handle_lowest_price(vanzari)
+        elif optiune == 'alt':
+            vanzari = run_ui2(vanzari)
         elif optiune == 'x':
             break
         else:

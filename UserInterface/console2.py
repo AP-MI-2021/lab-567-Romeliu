@@ -87,7 +87,7 @@ def handle_change_genre(vanzari,parametrii):
     except IndexError:
         print('Va rugam sa atribuiti parametrii corespunzatori comenzilor!')
 
-def run_ui(vanzari):
+def run_ui2(vanzari):
     while True:
         show_menu2()
         optiune = input('Introduceti optiunea: ')
@@ -116,3 +116,4 @@ def run_ui(vanzari):
                         print('Instructiunea introdusa nu este valida!')
         else:
             print('Optiunea introdusa nu este valida!')
+    return vanzari
