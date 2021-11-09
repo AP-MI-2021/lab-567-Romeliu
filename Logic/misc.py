@@ -1,5 +1,4 @@
-from Domain.vanzare2 import get_gen, get_pret, get_titlu
-
+from Domain.vanzare2 import get_gen, get_pret, get_titlu, creeaza_vanzare, get_id, get_tip_reducere
 
 def get_lowest_price(gen,vanzari):
     minim = None
@@ -24,3 +23,14 @@ def get_titles_with_genre(gen,vanzari):
         if get_gen(vanzare) == gen:
             lista_titluri.append(get_titlu(vanzare))
     return lista_titluri
+
+def apply_discount(vanzare):
+    reducere = get_tip_reducere(vanzare)
+    if reducere == 'gold':
+        pret_nou = int(get_pret(vanzare) * (90 / 100))
+        return creeaza_vanzare(get_id(vanzare), get_titlu(vanzare), get_gen(vanzare), pret_nou, get_tip_reducere(vanzare))
+    elif reducere == 'silver':
+        pret_nou = int(get_pret(vanzare) * (95 / 100))
+        return creeaza_vanzare(get_id(vanzare), get_titlu(vanzare), get_gen(vanzare), pret_nou, get_tip_reducere(vanzare))
+    else:    
+        return vanzare
