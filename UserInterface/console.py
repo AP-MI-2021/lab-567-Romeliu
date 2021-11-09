@@ -1,6 +1,6 @@
 from Domain.vanzare2 import get_gen, get_id, get_pret, get_tip_reducere, get_titlu
 from Domain.vanzare2 import creeaza_vanzare, get_str
-from Logic.misc import apply_discount, get_list_of_genres, get_lowest_price, get_titles_with_genre
+from Logic.misc import apply_discount, get_list_of_genres, get_lowest_price, get_titles_with_genre, sort_by_price
 from Logic.crud import create, read,update,delete
 from UserInterface.console2 import run_ui2
 
@@ -12,6 +12,7 @@ def menu():
     4. Determina pretul minim pentru fiecare gen
     5. Afișarea numărului de titluri distincte pentru fiecare gen
     6. Aplicarea unui discount de 5% pentru toate reducerile silver și 10% pentru toate reducerile gold
+    7. Ordonarea vânzărilor crescător după preț
     alt. Instructiuni pe o singura linie
     x. Iesire
     """)
@@ -109,6 +110,15 @@ def handle_discount(vanzari):
     print("Reducerile au fost aplicate cu succes!")
     return lista_vanzari
 
+def handle_order_by_price(vanzari):
+    if len(vanzari) > 0:
+        lista_ordonata = sort_by_price(vanzari)
+        print("Vanzarile ordonate dupa pret crescator sunt:")
+        for el in lista_ordonata:
+            print(get_str(el))
+    else:
+        print("Lista de vanzari este goala.")
+
 def run_ui(vanzari):
     while True:
         menu()
@@ -125,6 +135,8 @@ def run_ui(vanzari):
             vanzari = handle_distinct_titles(vanzari)
         elif optiune == '6':
             vanzari = handle_discount(vanzari)
+        elif optiune == '7':
+            handle_order_by_price(vanzari)
         elif optiune == 'alt':
             vanzari = run_ui2(vanzari)
         elif optiune == 'x':

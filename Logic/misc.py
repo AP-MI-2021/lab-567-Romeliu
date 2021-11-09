@@ -34,3 +34,8 @@ def apply_discount(vanzare):
         return creeaza_vanzare(get_id(vanzare), get_titlu(vanzare), get_gen(vanzare), pret_nou, get_tip_reducere(vanzare))
     else:    
         return vanzare
+
+def sort_by_price(vanzari):
+    vanzari_sortate = vanzari.copy()
+    vanzari_sortate.sort(key = get_pret)
+    return vanzari_sortate
