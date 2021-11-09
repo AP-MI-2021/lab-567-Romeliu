@@ -1,6 +1,6 @@
 from Domain.vanzare2 import get_gen, get_id, get_pret, get_tip_reducere, get_titlu
 from Domain.vanzare2 import creeaza_vanzare, get_str
-from Logic.comparisons import get_lowest_price
+from Logic.misc import get_list_of_genres, get_lowest_price, get_titles_with_genre
 from Logic.crud import create, read,update,delete
 from UserInterface.console2 import run_ui2
 
@@ -10,6 +10,7 @@ def menu():
     2. Afisare
     3. Schimba genul unei carti
     4. Determina pretul minim pentru fiecare gen
+    5. Afișarea numărului de titluri distincte pentru fiecare gen
     alt. Instructiuni pe o singura linie
     x. Iesire
     """)
@@ -88,13 +89,16 @@ def handle_change_genre(vanzari):
         return vanzari
 
 def handle_lowest_price(vanzari):
-    lista_genuri = []
-    for vanzare in vanzari:
-        if get_gen(vanzare) not in lista_genuri:
-            lista_genuri.append(get_gen(vanzare))
+    lista_genuri = get_list_of_genres(vanzari)
     print('Preturile minime pentru genurile existente sunt:')
     for gen in lista_genuri:
         print(f'    -pentru genul {gen}, pretul minim este: {get_lowest_price(gen,vanzari)}')
+
+def handle_distinct_titles(vanzari):
+    lista_genuri = get_list_of_genres(vanzari)
+    print('Titlurile disponibile sunt urmatoarele:')
+    for gen in lista_genuri:
+        print(f'    -pentru genul {gen}, titlurile disponibile sunt: {get_titles_with_genre(gen,vanzari)}')
 
 def run_ui(vanzari):
     while True:
@@ -108,6 +112,8 @@ def run_ui(vanzari):
             vanzari = handle_change_genre(vanzari)
         elif optiune == '4':
             handle_lowest_price(vanzari)
+        elif optiune == '5':
+            vanzari = handle_distinct_titles(vanzari)
         elif optiune == 'alt':
             vanzari = run_ui2(vanzari)
         elif optiune == 'x':

@@ -1,5 +1,4 @@
 from Domain.vanzare2 import creeaza_vanzare, get_gen, get_id, get_pret
-from Logic.comparisons import get_lowest_price
 from Logic.crud import create, delete, read, update
 
 
@@ -41,14 +40,8 @@ def test_delete():
     assert vanzare_deleted not in lista_deleted
     assert len(vanzari) == len(lista_deleted) + 1
 
-def test_get_minim():
-    vanzari = get_data()
-    assert get_lowest_price(get_gen(vanzari[0]),vanzari) <= get_pret(vanzari[0])
-    assert type(get_lowest_price(get_gen(vanzari[1]),vanzari)) is int
-
 def test_crud():
     test_create()
     test_read()
     test_update
     test_delete()
-    test_get_minim()
