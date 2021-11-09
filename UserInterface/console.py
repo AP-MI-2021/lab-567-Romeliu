@@ -13,6 +13,7 @@ def menu():
     5. Afișarea numărului de titluri distincte pentru fiecare gen
     6. Aplicarea unui discount de 5% pentru toate reducerile silver și 10% pentru toate reducerile gold
     7. Ordonarea vânzărilor crescător după preț
+    undo. Undo
     alt. Instructiuni pe o singura linie
     x. Iesire
     """)
@@ -53,27 +54,27 @@ def handle_delete(vanzari):
         print(err.args[0] + 'Id ul unei vanzari trebuie sa fie un intreg')
         return vanzari
 
-def handle_crud(vanzari):
-    while True:
-        print('a.   Adaugare.')
-        print('b.   Modificare.')
-        print('c.   Stergere.')
-        print('d.   Afisare.')
-        print('x.   Inapoi')
+def handle_crud(vanzari, lista_versiuni, versiune_curenta):
+    print('a.   Adaugare.')
+    print('b.   Modificare.')
+    print('c.   Stergere.')
+    print('d.   Afisare.')
 
-        optiune = input('Optiune aleasa: ')
-        if optiune == 'a':
-            vanzari = handle_create(vanzari)
-        elif optiune == 'b':
-            vanzari = handle_update(vanzari)
-        elif optiune == 'c':
-            vanzari =handle_delete(vanzari)
-        elif optiune == 'd':
-            handle_show_all(vanzari)
-        elif optiune == 'x':
-            return vanzari
-        else:
-            print('Optiune invalida.')
+    optiune = input('Optiune aleasa: ')
+    if optiune == 'a':
+        vanzari = handle_create(vanzari)
+        lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
+    elif optiune == 'b':
+        vanzari = handle_update(vanzari)
+        lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
+    elif optiune == 'c':
+        vanzari =handle_delete(vanzari)
+        lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
+    elif optiune == 'd':
+        handle_show_all(vanzari)
+    else:
+        print('Optiune invalida.')
+    return vanzari, lista_versiuni, versiune_curenta
 
 def handle_change_genre(vanzari):
     try:
@@ -119,24 +120,45 @@ def handle_order_by_price(vanzari):
     else:
         print("Lista de vanzari este goala.")
 
+def handle_undo(lista_versiuni, versiune_curenta):
+    if versiune_curenta == 0:
+        print("Nu se mai poate face undo")
+        return
+    versiune_curenta -= 1
+    return lista_versiuni[versiune_curenta], versiune_curenta
+
+def handle_add_new_version(vanzare, lista_versiuni, versiune_curenta):
+    while versiune_curenta < len(lista_versiuni) - 1:
+        lista_versiuni.pop()
+    lista_versiuni.append(vanzare)
+    versiune_curenta += 1
+    return lista_versiuni, versiune_curenta
+
 def run_ui(vanzari):
+    lista_versiuni = [vanzari]
+    versiune_curenta = 0
     while True:
         menu()
         optiune = input('Introduceti optiunea: ')
         if optiune == '1':
-            vanzari = handle_crud(vanzari)
+            vanzari, lista_versiuni, versiune_curenta = handle_crud(vanzari, lista_versiuni, versiune_curenta)
         elif optiune == '2':
             handle_show_all(vanzari)
         elif optiune == '3':
             vanzari = handle_change_genre(vanzari)
+            lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
         elif optiune == '4':
             handle_lowest_price(vanzari)
         elif optiune == '5':
             vanzari = handle_distinct_titles(vanzari)
+            lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
         elif optiune == '6':
             vanzari = handle_discount(vanzari)
+            lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
         elif optiune == '7':
             handle_order_by_price(vanzari)
+        elif optiune == 'undo':
+            vanzari, versiune_curenta = handle_undo(lista_versiuni, versiune_curenta)
         elif optiune == 'alt':
             vanzari = run_ui2(vanzari)
         elif optiune == 'x':
