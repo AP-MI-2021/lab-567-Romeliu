@@ -14,6 +14,7 @@ def menu():
     6. Aplicarea unui discount de 5% pentru toate reducerile silver și 10% pentru toate reducerile gold
     7. Ordonarea vânzărilor crescător după preț
     undo. Undo
+    redo. Redo
     alt. Instructiuni pe o singura linie
     x. Iesire
     """)
@@ -122,9 +123,14 @@ def handle_order_by_price(vanzari):
 
 def handle_undo(lista_versiuni, versiune_curenta):
     if versiune_curenta == 0:
-        print("Nu se mai poate face undo")
-        return
+        raise ValueError("Nu se mai poate face undo")
     versiune_curenta -= 1
+    return lista_versiuni[versiune_curenta], versiune_curenta
+
+def handle_redo(lista_versiuni, versiune_curenta):
+    if versiune_curenta == len(lista_versiuni) - 1:
+        raise ValueError("Nu se mai poate face redo")
+    versiune_curenta += 1
     return lista_versiuni[versiune_curenta], versiune_curenta
 
 def handle_add_new_version(vanzare, lista_versiuni, versiune_curenta):
@@ -158,7 +164,15 @@ def run_ui(vanzari):
         elif optiune == '7':
             handle_order_by_price(vanzari)
         elif optiune == 'undo':
-            vanzari, versiune_curenta = handle_undo(lista_versiuni, versiune_curenta)
+            try:
+                vanzari, versiune_curenta = handle_undo(lista_versiuni, versiune_curenta)
+            except ValueError as ve:
+                print("Eroare: ", ve.args[0])
+        elif optiune == 'redo':
+            try:
+                vanzari, versiune_curenta = handle_redo(lista_versiuni, versiune_curenta)
+            except ValueError as ve:
+                print("Eroare: ", ve.args[0])
         elif optiune == 'alt':
             vanzari = run_ui2(vanzari)
         elif optiune == 'x':

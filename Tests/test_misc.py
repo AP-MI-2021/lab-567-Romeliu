@@ -1,5 +1,7 @@
 from Domain.vanzare2 import creeaza_vanzare, get_gen, get_pret
 from Logic.misc import apply_discount, get_list_of_genres, get_lowest_price, get_titles_with_genre, sort_by_price
+from UserInterface.console import handle_add_new_version, handle_discount, handle_redo, handle_undo
+from UserInterface.console2 import handle_add
 
 def get_data():
     return[
@@ -37,9 +39,20 @@ def test_sort_by_price():
     for el in vanzari:
         assert el in vanzari_sortat
 
+def test_handle_undo():
+    vanzari = get_data()
+    lista_versiuni = [vanzari]
+    versiune_curenta = 0
+    vanzari = handle_discount(vanzari)
+    lista_versiuni, versiune_curenta = handle_add_new_version(vanzari, lista_versiuni, versiune_curenta)
+    vanzari, versiune_curenta = handle_undo(lista_versiuni, versiune_curenta)
+    assert versiune_curenta == 0
+    assert len(lista_versiuni) > versiune_curenta
+
 def test_misc():
     test_get_minim()
     test_get_list_of_genres()
     test_get_titles_with_genre()
     test_apply_discount()
     test_sort_by_price()
+    test_handle_undo()
